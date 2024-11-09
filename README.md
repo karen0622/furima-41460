@@ -26,17 +26,17 @@ has_many:purchases
 |user                     |references |null: false,foreign_key: true  |
 |name                     |string     |null: false                    |
 |explanation              |text       |null: false                    |
-|category_id              |string     |null: false                    |
-|product_condition_id     |text       |null: false                    |
-|shipping_cost_id         |numeric    |null: false                    |
-|shipping_date_id         |date       |null: false                    |
-|area_id                  |string     |null: false                    |
+|category_id              |integer    |null: false                    |
+|product_condition_id     |integer    |null: false                    |
+|shipping_cost_id         |integer    |null: false                    |
+|shipping_date_id         |integer    |null: false                    |
+|area_id                  |integer    |null: false                    |
 |price                    |integer    |null: false                    |
 
 
 ### Association
 belongs_to:user
-has_one:purchases
+has_one:purchase
 
 
 ## purchases
@@ -50,7 +50,7 @@ has_one:purchases
 ### Association
 belongs_to:user
 belongs_to:item
-has_one:shippings
+has_one:shipping
 
 
 ## shippings
@@ -58,12 +58,12 @@ has_one:shippings
 |Column        |Type       |Options                       |
 |--------------|--------   |------------------------------|
 |purchase      |references |null: false,foreign_key: true |
-|post_code     |string     |null: false                   |
-|prefecture    |string     |null: false                   |
+|postcode      |string     |null: false                   |
+|area_id       |integer    |null: false                   |
 |city          |string     |null: false                   |
 |address       |string     |null: false                   |
 |phone_number  |string     |null: false                   |
-|build         |string     |                              |
+|building      |string     |                              |
 
 
 ### Association
