@@ -1,24 +1,75 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users
 
-Things you may want to cover:
+|Column         |Type    |Options                   |
+|---------------|--------|--------------------------|
+|email          | string | null: false,unique: true |
+|password       | string | null: false              |
+|nickname       | string | null: false              |
+|last_name      | string | null: false              |
+|first_name     | string | null: false              |
+|last_name_kana | string | null: false              |
+|first_name_kana| string | null: false              |
+|birthday       | date   | null: false              |
 
-* Ruby version
 
-* System dependencies
+### Association
+has_many:items
+has_many:purchase
 
-* Configuration
 
-* Database creation
+## items
 
-* Database initialization
+|Column             |Type     |Options                          |
+|-------------------|---------  |-------------------------------|
+|user               |references |null: false,foreign_key: true  |
+|image              |string     |null: false                    |
+|name               |string     |null: false                    |
+|explanation        |text       |null: false                    |
+|category           |string     |null: false                    |
+|product_condition  |text       |null: false                    |
+|shipping_cost      |numeric    |null: false                    |
+|sipping_date       |date       |null: false                    |
+|price              |numeric    |null: false                    |
+|area               |string     |null: false                    |
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+### Association
+belongs_to:user
+haas_one:purchase
 
-* Deployment instructions
 
-* ...
+## purchase
+
+|Column|Type      |Options                       |
+|----- |----------|------------------------------|
+|user  |references|null: false,foreign_key: true |
+|item  |references|null: false,foreign_key: true |
+ 
+
+### Association
+belongs_to:user
+belongs_to:item
+has_one:sipping
+
+
+## sipping
+
+|Column        |Type       |Options                       |
+|--------------|--------   |------------------------------|
+|purchase      |references |null: false,foreign_key: true |
+|post_code     |numeric    |null: false                   |
+|prefecture    |string     |null: false                   |
+|city          |string     |null: false                   |
+|address       |numeric    |null: false                   |
+|phone_number  |numeric    |null: false                   |
+|build         |string     |                              |
+
+
+### Association
+belong_to:purchase
+
+
+
+
