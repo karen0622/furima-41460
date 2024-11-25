@@ -15,13 +15,11 @@ class Item < ApplicationRecord
     validates :user_id
     validates :name
     validates :explanation
-    validates :price,format: { with: /\A[0-9]+\z/ },inclusion: { in: 300..9_999_999,message: "must be between 300 and 9,999,999"}
-    validates :category_id
-    validates :product_condition_id
-    validates :shipping_cost_id
-    validates :area_id
-    validates :shipping_date_id
+    validates :price,numericality: { with: /\A[0-9]+\z/, message: "Half-width number" }
+    validates :price,numericality: {only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: "Out of setting range"}
+    validates :image
   end
+
 
    #ジャンルの選択が「---」の時は保存できないようにする
   with_options numericality: { other_than: 0 } do
@@ -31,4 +29,6 @@ class Item < ApplicationRecord
     validates :shipping_date_id
     validates :area_id
   end
+
+  
 end
