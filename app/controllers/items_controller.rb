@@ -25,8 +25,6 @@ class ItemsController < ApplicationController
   def edit
     if @item.user_id != current_user.id
       redirect_to root_path
-    else
-      render :index,status: :unprocessable_entity
     end
   end
   
