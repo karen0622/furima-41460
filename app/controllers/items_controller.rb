@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!,except: [:index, :show]
-  before_action :set_tweet, only: [:edit, :show,:update,:destroy]
+  before_action :set_item, only: [:edit, :show,:update,:destroy]
 
   def index
     @items = Item.all.order(created_at: :desc)
@@ -25,6 +25,8 @@ class ItemsController < ApplicationController
   def edit
     if @item.user_id != current_user.id
       redirect_to root_path
+    else
+      render :index,status: :unprocessable_entity
     end
   end
   
@@ -38,8 +40,12 @@ class ItemsController < ApplicationController
 
 
   def destroy
-    @item.destroy
-    redirect_to root_path
+    if @item.user_id == current_user.id
+       @item.destroy
+      redirect_to root_path
+    else
+      render :show
+    end
   end
 
 private
@@ -48,7 +54,7 @@ private
     params.require(:item).permit(:image, :name, :explanation, :price, :category_id, :product_condition_id, :shipping_cost_id, :area_id, :shipping_date_id,).merge(user_id: current_user.id)
   end
 
-  def set_tweet
+  def set_item
     @item = Item.find(params[:id])
   end
 end
