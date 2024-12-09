@@ -27,6 +27,4 @@ class Item < ApplicationRecord
     validates :shipping_date_id
     validates :area_id
   end
-
-  
 end
