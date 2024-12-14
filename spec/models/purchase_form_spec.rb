@@ -1,15 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe Purchase, type: :model do
+RSpec.describe PurchaseForm, type: :model do
   before do
-    @purchase_from = FactoryBot.build(:purchase_from)
+    @purchase_form = FactoryBot.build(:purchase_form)
   end
 
   describe '配送先情報の保存' do
     context '配送先情報の保存ができるとき' do
       it 'すべての値が正しく入力されていれば保存できること' do
-        expect(@order_form).to be_valid
+        expect(@purchase_form).to be_valid
       end
+
+      it "priceとtokenがあれば保存ができること" do
+        expect(@purchase_form).to be_valid
+      end
+    end
 
     context '配送先情報の保存ができないとき' do
       it 'user_idが空のとき' do
@@ -27,19 +32,20 @@ RSpec.describe Purchase, type: :model do
       it '郵便番号が空のとき' do
         @purchase_form.post_code = ''
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Post_code can't be blank", 'is invalid. Enter it as follows (e.g., 123-4567)')
+        expect(@purchase_form.errors.full_messages).to include("Post code is invalid. Enter it as follows (e.g., 123-4567)")
       end
+
 
       it '都道府県が「---」のとき' do
         @purchase_form.area_id = 0
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Area must be other than 0")
+        expect(@purchase_form.errors.full_messages).to include("Area can't be blank")
       end
 
       it '市町村が空のとき' do
-        @purchase_form.city_id = 0
+        @purchase_form.city = ''
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("City must be other than 0")
+        expect(@purchase_form.errors.full_messages).to include("City can't be blank")
       end
 
 
@@ -52,7 +58,13 @@ RSpec.describe Purchase, type: :model do
       it '電話番号が空のとき'do
         @purchase_form.phone_number = ''
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Phone_number can't be blank")
+        expect(@purchase_form.errors.full_messages).to include("Phone number can't be blank")
+      end
+
+      it "tokenが空では登録できないこと" do
+        @purchase_form.token = nil
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include("Token can't be blank")
       end
     end
   end

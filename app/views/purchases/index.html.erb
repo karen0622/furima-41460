@@ -30,9 +30,10 @@
       </p>
     </div>
     <%# /支払額の表示 %>
-
-    <%= form_with model: @purchase_from, url: item_purchases_path(@item), local: true do |f| %>
-      <%= render 'shared/error_messages', model: @purchase_from %>
+    <%= include_gon %>
+    
+    <%= form_with model: @purchase_form, url: item_purchases_path(@item), id: 'charge-form', class: 'transaction-form-wrap', local: true do |f| %>
+      <%= render 'shared/error_messages', model: @purchase_form %>
    
     <%# カード情報の入力 %>
     <div class='credit-card-form'>
@@ -44,7 +45,7 @@
           <label class="form-text">カード情報</label>
           <span class="indispensable">必須</span>
         </div>
-        <div id="number-form" class="input-default"></div>
+         <div id="number-form" class="input-default"></div>
         <div class='available-card'>
           <%= image_tag 'card-visa.gif', class: 'card-logo'%>
           <%= image_tag 'card-mastercard.gif', class: 'card-logo'%>
@@ -58,7 +59,7 @@
           <span class="indispensable">必須</span>
         </div>
         <div class='input-expiration-date-wrap'>
-          <div id="expiry-form" class="input-default"></div>
+         <div id="expiry-form" class="input-default"></div>
         </div>
       </div>
       <div class="form-group">
@@ -66,7 +67,9 @@
           <label class="form-text">セキュリティコード</label>
           <span class="indispensable">必須</span>
         </div>
-        <div id="cvc-form" class="input-default"></div>
+       <div id="cvc-form" class="input-default"></div>
+
+
       </div>
     </div>
     <%# /カード情報の入力 %>
