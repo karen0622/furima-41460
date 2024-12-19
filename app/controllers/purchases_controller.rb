@@ -1,15 +1,15 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_item, only: [:index, :create]
+  before_action :restriction, only: [:index]
 
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
-    @item = Item.find(params[:item_id])
     @purchase_form = PurchaseForm.new
   end
 
   
   def create
-    @item = Item.find(params[:item_id])
     @purchase_form = PurchaseForm.new(purchase_params)
     if @purchase_form.valid?
       pay_item
@@ -23,6 +23,18 @@ class PurchasesController < ApplicationController
   end
 
   private
+
+  def set_item
+    @item = Item.find(params[:item_id])
+  end
+
+  def restriction
+    if @item.user_id == current_user.id
+      redirect_to root_path
+    elsif @item.purchase.present?
+      redirect_to root_path
+    end
+  end
 
   def purchase_params
     params.require(:purchase_form).permit(:post_code,:area_id, :city, :address, :phone_number, :building)
