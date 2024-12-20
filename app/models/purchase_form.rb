@@ -1,6 +1,6 @@
 class PurchaseForm
   include ActiveModel::Model
-  attr_accessor :user_id,:token,:item_id,:purchase_id,:post_code,:area_id,:city,:address,:phone_number,:building
+  attr_accessor :user_id,:token,:item_id,:post_code,:area_id,:city,:address,:phone_number,:building
   
   with_options presence: true do
   validates :post_code, format: { with: /\A\d{3}-\d{4}\z/, message: "is invalid. Enter it as follows (e.g., 123-4567)" }
