@@ -70,11 +70,19 @@ RSpec.describe PurchaseForm, type: :model do
         expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
       end
 
-      it '電話番号の桁数が違うとき'do
-        @purchase_form.phone_number = '123456789'
+
+      it '電話番号が9桁以下では購入できない' do
+        @purchase_form.phone_number = '12345678'
         @purchase_form.valid?
         expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
       end
+
+      it '電話番号が12桁以上では購入できない' do
+        @purchase_form.phone_number = '0123456789123'
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
+      end
+   
 
       it '数字以外の文字が入ったとき'do
       @purchase_form.phone_number = '1234abcd'
