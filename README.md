@@ -58,7 +58,7 @@ has_one:shipping
 |Column        |Type       |Options                       |
 |--------------|--------   |------------------------------|
 |purchase      |references |null: false,foreign_key: true |
-|postcode      |string     |null: false                   |
+|post_code     |string     |null: false                   |
 |area_id       |integer    |null: false                   |
 |city          |string     |null: false                   |
 |address       |string     |null: false                   |
