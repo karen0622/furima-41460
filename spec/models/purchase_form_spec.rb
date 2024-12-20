@@ -14,7 +14,7 @@ RSpec.describe PurchaseForm, type: :model do
         expect(@purchase_form).to be_valid
       end
 
-      it "priceとtokenがあれば保存ができること" do
+      it '建物名がなくても保存できる' do
         expect(@purchase_form).to be_valid
       end
     end
