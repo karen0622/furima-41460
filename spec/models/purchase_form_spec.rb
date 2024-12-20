@@ -15,6 +15,7 @@ RSpec.describe PurchaseForm, type: :model do
       end
 
       it '建物名がなくても保存できる' do
+        @purchase_form.building = nil
         expect(@purchase_form).to be_valid
       end
     end
@@ -38,9 +39,14 @@ RSpec.describe PurchaseForm, type: :model do
         expect(@purchase_form.errors.full_messages).to include("Post code is invalid. Enter it as follows (e.g., 123-4567)")
       end
 
+      it '郵便番号にハイフンがないとき' do
+      @purchase_form.post_code = '1234567'
+      @purchase_form.valid?
+      expect(@purchase_form.errors.full_messages).to include("Post code is invalid. Enter it as follows (e.g., 123-4567)")
+       end
 
       it '都道府県が「---」のとき' do
-        @purchase_form.area_id = 0
+        @purchase_form.area_id = '0'
         @purchase_form.valid?
         expect(@purchase_form.errors.full_messages).to include("Area can't be blank")
       end
@@ -61,8 +67,22 @@ RSpec.describe PurchaseForm, type: :model do
       it '電話番号が空のとき'do
         @purchase_form.phone_number = ''
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include("Phone number can't be blank")
+        expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
       end
+
+      it '電話番号の桁数が違うとき'do
+        @purchase_form.phone_number = '123456789'
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
+      end
+
+      it '数字以外の文字が入ったとき'do
+      @purchase_form.phone_number = '1234abcd'
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include("Phone number is invalid. Input only number")
+      end
+
+
 
       it "tokenが空では登録できないこと" do
         @purchase_form.token = nil
